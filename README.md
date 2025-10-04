@@ -1,5 +1,4 @@
 
-<!DOCTYPE html>
 <html lang="el">
 <head>
   <meta charset="UTF-8">
@@ -86,9 +85,9 @@
   </div>
 
   <script>
-    const channelID = 3060500;
-    const readAPIKey = "F4352XOWHC34YZ4X";
-    const writeAPIKey = "HR8UA6W0NUKWVWZ5"; // για control fields
+    const channelID = 3064103;
+    const readAPIKey = "S6B6UK2LSEMIN3US";
+    const writeAPIKey = "UKYSKI3TZC0WZ3LJ"; // για control fields
     const results = 30; // πόσα σημεία δείχνουμε
 
     // --- Fetch data για charts ---
