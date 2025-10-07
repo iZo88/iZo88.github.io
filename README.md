@@ -4,7 +4,54 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Arduino Sensors & Pump Control</title>
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js">
+// --- Αποθήκευση επιλογών στο LocalStorage ---
+function saveSettings() {
+  const pumpMode = document.getElementById("pumpMode").value;
+  const pumpControl = document.querySelector("input[name='pumpControl']:checked").value;
+  const humidityLimit = document.getElementById("humidityLimit").value;
+
+  localStorage.setItem("pumpMode", pumpMode);
+  localStorage.setItem("pumpControl", pumpControl);
+  localStorage.setItem("humidityLimit", humidityLimit);
+}
+
+// --- Επαναφορά επιλογών κατά το άνοιγμα της σελίδας ---
+function loadSettings() {
+  const pumpMode = localStorage.getItem("pumpMode");
+  const pumpControl = localStorage.getItem("pumpControl");
+  const humidityLimit = localStorage.getItem("humidityLimit");
+
+  if (pumpMode !== null) {
+    document.getElementById("pumpMode").value = pumpMode;
+  }
+  if (pumpControl !== null) {
+    document.querySelector(`input[name='pumpControl'][value='${pumpControl}']`).checked = true;
+  }
+  if (humidityLimit !== null) {
+    document.getElementById("humidityLimit").value = humidityLimit;
+  }
+}
+
+// --- Συνδυασμός με αποστολή εντολής ---
+const originalSendControl = sendControl;
+sendControl = async function() {
+  const pumpMode = document.getElementById("pumpMode").value;
+  const pumpControl = document.querySelector("input[name='pumpControl']:checked").value;
+  const humidityLimit = document.getElementById("humidityLimit").value;
+
+  const url = `https://api.thingspeak.com/update?api_key=${writeAPIKey}&field5=${pumpMode}&field6=${pumpControl}&field7=${humidityLimit}`;
+  await fetch(url);
+  alert("Εντολή στάλθηκε στο Arduino!");
+
+  // Αποθήκευση επιλογών
+  saveSettings();
+};
+
+// --- Φόρτωση ρυθμίσεων μόλις ανοίξει η σελίδα ---
+window.addEventListener("load", loadSettings);
+
+</script>
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -180,7 +227,55 @@
     // --- Αυτόματο refresh κάθε 20s ---
     drawCharts();
     setInterval(drawCharts, 20000);
-  </script>
+  
+// --- Αποθήκευση επιλογών στο LocalStorage ---
+function saveSettings() {
+  const pumpMode = document.getElementById("pumpMode").value;
+  const pumpControl = document.querySelector("input[name='pumpControl']:checked").value;
+  const humidityLimit = document.getElementById("humidityLimit").value;
+
+  localStorage.setItem("pumpMode", pumpMode);
+  localStorage.setItem("pumpControl", pumpControl);
+  localStorage.setItem("humidityLimit", humidityLimit);
+}
+
+// --- Επαναφορά επιλογών κατά το άνοιγμα της σελίδας ---
+function loadSettings() {
+  const pumpMode = localStorage.getItem("pumpMode");
+  const pumpControl = localStorage.getItem("pumpControl");
+  const humidityLimit = localStorage.getItem("humidityLimit");
+
+  if (pumpMode !== null) {
+    document.getElementById("pumpMode").value = pumpMode;
+  }
+  if (pumpControl !== null) {
+    document.querySelector(`input[name='pumpControl'][value='${pumpControl}']`).checked = true;
+  }
+  if (humidityLimit !== null) {
+    document.getElementById("humidityLimit").value = humidityLimit;
+  }
+}
+
+// --- Συνδυασμός με αποστολή εντολής ---
+const originalSendControl = sendControl;
+sendControl = async function() {
+  const pumpMode = document.getElementById("pumpMode").value;
+  const pumpControl = document.querySelector("input[name='pumpControl']:checked").value;
+  const humidityLimit = document.getElementById("humidityLimit").value;
+
+  const url = `https://api.thingspeak.com/update?api_key=${writeAPIKey}&field5=${pumpMode}&field6=${pumpControl}&field7=${humidityLimit}`;
+  await fetch(url);
+  alert("Εντολή στάλθηκε στο Arduino!");
+
+  // Αποθήκευση επιλογών
+  saveSettings();
+};
+
+// --- Φόρτωση ρυθμίσεων μόλις ανοίξει η σελίδα ---
+window.addEventListener("load", loadSettings);
+
+</script>
 </body>
 </html>
+
 
