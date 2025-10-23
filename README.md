@@ -134,7 +134,7 @@ window.addEventListener("load", loadSettings);
   <script>
     const channelID = 3100035;
     const readAPIKey = "TBCHS5NBZ92WX8OJ";
-    const writeAPIKey = "1TP8OS651KU8R1L0"; // για control fields
+    const writeAPIKey = "HZE91TDEY6NYQKDQ"; // για control fields
     const results = 30; // πόσα σημεία δείχνουμε
 
     // --- Fetch data για charts ---
