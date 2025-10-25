@@ -226,7 +226,7 @@ window.addEventListener("load", loadSettings);
 
     // --- Αυτόματο refresh κάθε 20s ---
     drawCharts();
-    setInterval(drawCharts, 20000);
+    setInterval(drawCharts, 40000);
   
 // --- Αποθήκευση επιλογών στο LocalStorage ---
 function saveSettings() {
