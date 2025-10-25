@@ -63,7 +63,7 @@ async function autoSendControl() {
 window.addEventListener("load", () => {
   loadSettings();
   // Ξεκινά το αυτόματο interval αποστολής κάθε 30s
-  setInterval(autoSendControl, 30000);
+  setInterval(autoSendControl, 20000);
 });
 </script>
   <style>
