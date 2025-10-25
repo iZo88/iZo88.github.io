@@ -50,7 +50,19 @@ sendControl = async function() {
 
 // --- Φόρτωση ρυθμίσεων μόλις ανοίξει η σελίδα ---
 window.addEventListener("load", loadSettings);
+// --- Αυτόματη αποστολή των field5–7 κάθε 30 δευτερόλεπτα ---
+async function autoSendControl() {
+  const pumpMode = document.getElementById("pumpMode").value;
+  const pumpControl = document.querySelector("input[name='pumpControl']:checked").value;
+  const humidityLimit = document.getElementById("humidityLimit").value;
 
+  const url = `https://api.thingspeak.com/update?api_key=${writeAPIKey}&field5=${pumpMode}&field6=${pumpControl}&field7=${humidityLimit}`;
+  await fetch(url);
+  console.log("✅ Αυτόματη αποστολή στο ThingSpeak:", url);
+}
+
+// ξεκινά η αυτόματη αποστολή κάθε 30 δευτ. (30 000 ms)
+setInterval(autoSendControl, 30000);
 </script>
   <style>
     body {
