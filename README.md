@@ -34,22 +34,20 @@ function loadSettings() {
 }
 
 // --- Συνδυασμός με αποστολή εντολής ---
-const originalSendControl = sendControl;
-sendControl = async function() {
+// --- Αποστολή εντολής στο ThingSpeak ---
+async function sendControl() {
   const pumpMode = document.getElementById("pumpMode").value;
   const pumpControl = document.querySelector("input[name='pumpControl']:checked").value;
   const humidityLimit = document.getElementById("humidityLimit").value;
 
   const url = `https://api.thingspeak.com/update?api_key=${writeAPIKey}&field5=${pumpMode}&field6=${pumpControl}&field7=${humidityLimit}`;
   await fetch(url);
-  alert("Εντολή στάλθηκε στο Arduino!");
+  console.log("✅ Εντολή στάλθηκε χειροκίνητα:", url);
 
-  // Αποθήκευση επιλογών
+  // Αποθήκευση ρυθμίσεων
   saveSettings();
-};
+}
 
-// --- Φόρτωση ρυθμίσεων μόλις ανοίξει η σελίδα ---
-window.addEventListener("load", loadSettings);
 // --- Αυτόματη αποστολή των field5–7 κάθε 30 δευτερόλεπτα ---
 async function autoSendControl() {
   const pumpMode = document.getElementById("pumpMode").value;
@@ -58,11 +56,15 @@ async function autoSendControl() {
 
   const url = `https://api.thingspeak.com/update?api_key=${writeAPIKey}&field5=${pumpMode}&field6=${pumpControl}&field7=${humidityLimit}`;
   await fetch(url);
-  console.log("✅ Αυτόματη αποστολή στο ThingSpeak:", url);
+  console.log("⏱️ Αυτόματη αποστολή στο ThingSpeak:", url);
 }
 
-// ξεκινά η αυτόματη αποστολή κάθε 30 δευτ. (30 000 ms)
-setInterval(autoSendControl, 30000);
+// --- Επαναφορά επιλογών κατά το άνοιγμα της σελίδας ---
+window.addEventListener("load", () => {
+  loadSettings();
+  // Ξεκινά το αυτόματο interval αποστολής κάθε 30s
+  setInterval(autoSendControl, 30000);
+});
 </script>
   <style>
     body {
